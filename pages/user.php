@@ -181,13 +181,13 @@ if($func == '') {
 	}
 	if(intval($_SESSION['multinewsletter']['user']['showgroup']) > 0) {
         $where[] = "
-            group_ids = '" . $_SESSION['multinewsletter']['user']['showgroup'] . "' OR 
-            group_ids LIKE '" . $_SESSION['multinewsletter']['user']['showgroup'] . "|%' OR 
-            group_ids LIKE '%|" . $_SESSION['multinewsletter']['user']['showgroup'] . "' OR 
-            group_ids LIKE '%|" . $_SESSION['multinewsletter']['user']['showgroup'] . "|%' OR 
-            group_ids LIKE '" . $_SESSION['multinewsletter']['user']['showgroup'] . ",%' OR 
-            group_ids LIKE '%," . $_SESSION['multinewsletter']['user']['showgroup'] . "' OR 
-            group_ids LIKE '%," . $_SESSION['multinewsletter']['user']['showgroup'] . ",%' 
+            group_ids = '" . $_SESSION['multinewsletter']['user']['showgroup'] . "' OR
+            group_ids LIKE '" . $_SESSION['multinewsletter']['user']['showgroup'] . "|%' OR
+            group_ids LIKE '%|" . $_SESSION['multinewsletter']['user']['showgroup'] . "' OR
+            group_ids LIKE '%|" . $_SESSION['multinewsletter']['user']['showgroup'] . "|%' OR
+            group_ids LIKE '" . $_SESSION['multinewsletter']['user']['showgroup'] . ",%' OR
+            group_ids LIKE '%," . $_SESSION['multinewsletter']['user']['showgroup'] . "' OR
+            group_ids LIKE '%," . $_SESSION['multinewsletter']['user']['showgroup'] . ",%'
         ";
 	}
 	else if($_SESSION['multinewsletter']['user']['showgroup'] == "no") {
@@ -339,6 +339,7 @@ if($func == '') {
 					<th><a href="<?php print rex_url::currentBackendPage(); ?>&orderby=email<?php print (($_SESSION['multinewsletter']['user']['orderby'] == 'email' && $_SESSION['multinewsletter']['user']['direction'] == 'ASC') ? '&direction=DESC' : '&direction=ASC')?>"><?php print rex_i18n::msg('multinewsletter_newsletter_email')?></a></th>
 					<th><a href="<?php print rex_url::currentBackendPage(); ?>&orderby=firstname<?php print (($_SESSION['multinewsletter']['user']['orderby'] == 'firstname' && $_SESSION['multinewsletter']['user']['direction'] == 'ASC')  ? '&direction=DESC' : '&direction=ASC')?>"><?php print rex_i18n::msg('multinewsletter_newsletter_firstname')?></a></th>
 					<th><a href="<?php print rex_url::currentBackendPage(); ?>&orderby=lastname<?php print (($_SESSION['multinewsletter']['user']['orderby'] == 'lastname' && $_SESSION['multinewsletter']['user']['direction'] == 'ASC')  ? '&direction=DESC' : '&direction=ASC')?>"><?php print rex_i18n::msg('multinewsletter_newsletter_lastname')?></a></th>
+					<th><a href="<?php print rex_url::currentBackendPage(); ?>&orderby=group_ids<?php print (($_SESSION['multinewsletter']['user']['orderby'] == 'group_ids' && $_SESSION['multinewsletter']['user']['direction'] == 'ASC') ? '&direction=DESC' : '&direction=ASC')?>"><?php print rex_i18n::msg('multinewsletter_newsletter_group')?></a></th>
 					<th><a href="<?php print rex_url::currentBackendPage(); ?>&orderby=clang_id<?php print (($_SESSION['multinewsletter']['user']['orderby'] == 'clang_id' && $_SESSION['multinewsletter']['user']['direction'] == 'ASC') ? '&direction=DESC' : '&direction=ASC')?>"><?php print rex_i18n::msg('multinewsletter_newsletter_clang')?></a></th>
 					<th><a href="<?php print rex_url::currentBackendPage(); ?>&orderby=createdate<?php print (($_SESSION['multinewsletter']['user']['orderby'] == 'createdate' && $_SESSION['multinewsletter']['user']['direction'] == 'ASC') ? '&direction=DESC' : '&direction=ASC')?>"><?php print rex_i18n::msg('multinewsletter_newsletter_create')?></a></th>
 					<th><a href="<?php print rex_url::currentBackendPage(); ?>&orderby=updatedate<?php print (($_SESSION['multinewsletter']['user']['orderby'] == 'updatedate' && $_SESSION['multinewsletter']['user']['direction'] == 'ASC') ? '&direction=DESC' : '&direction=ASC')?>"><?php print rex_i18n::msg('multinewsletter_newsletter_update')?></a></th>
@@ -369,6 +370,7 @@ if($func == '') {
 						print '<td><a href="'. rex_url::currentBackendPage() .'&func=edit&entry_id='.$user_id.'">'. htmlspecialchars($user->email).'</a></td>';
 						print '<td>'. htmlspecialchars($user->firstname) .'</td>';
 						print '<td>'. htmlspecialchars($user->lastname) .'</td>';
+						print '<td>'. htmlspecialchars(implode(",",($user->group_ids))) .'</td>';
 						if(rex_clang::exists($user_lid)) {
 							print '<td>'. rex_clang::get($user_lid)->getName() .'</td>';
 						}
@@ -623,13 +625,13 @@ else if($func == "export") {
 	}
 	if(filter_var($_SESSION['multinewsletter']['user']['showgroup'], FILTER_VALIDATE_INT) !== false) {
         $where[] = "
-            group_ids = '" . $_SESSION['multinewsletter']['user']['showgroup'] . "' OR 
-            group_ids LIKE '" . $_SESSION['multinewsletter']['user']['showgroup'] . "|%' OR 
-            group_ids LIKE '%|" . $_SESSION['multinewsletter']['user']['showgroup'] . "' OR 
-            group_ids LIKE '%|" . $_SESSION['multinewsletter']['user']['showgroup'] . "|%' OR 
-            group_ids LIKE '" . $_SESSION['multinewsletter']['user']['showgroup'] . ",%' OR 
-            group_ids LIKE '%," . $_SESSION['multinewsletter']['user']['showgroup'] . "' OR 
-            group_ids LIKE '%," . $_SESSION['multinewsletter']['user']['showgroup'] . ",%' 
+            group_ids = '" . $_SESSION['multinewsletter']['user']['showgroup'] . "' OR
+            group_ids LIKE '" . $_SESSION['multinewsletter']['user']['showgroup'] . "|%' OR
+            group_ids LIKE '%|" . $_SESSION['multinewsletter']['user']['showgroup'] . "' OR
+            group_ids LIKE '%|" . $_SESSION['multinewsletter']['user']['showgroup'] . "|%' OR
+            group_ids LIKE '" . $_SESSION['multinewsletter']['user']['showgroup'] . ",%' OR
+            group_ids LIKE '%," . $_SESSION['multinewsletter']['user']['showgroup'] . "' OR
+            group_ids LIKE '%," . $_SESSION['multinewsletter']['user']['showgroup'] . ",%'
         ";
 	}
 	if($_SESSION['multinewsletter']['user']['showstatus'] >= 0) {
