@@ -55,7 +55,7 @@ if($offset_lg_cols > 0) {
 	$offset_lg = " mr-lg-auto ml-lg-auto ";
 }
 	
-print '<div class="col-12 col-sm-'. $cols_sm .' col-md-'. $cols_md .' col-lg-'. $cols_lg . $offset_lg .' yform">';
+print '<div class="container yform">'; # col-12 col-sm-'. $cols_sm .' col-md-'. $cols_md .' col-lg-'. $cols_lg . $offset_lg .'
 
 $addon = rex_addon::get('multinewsletter');
 
@@ -127,8 +127,15 @@ else {
 			validate|unique|email|'. $addon->getConfig("lang_". rex_clang::getCurrentId() ."_already_subscribed") .'|rex_375_user
 			validate|empty|privacy_policy_accepted|'. $tag_open .'d2u_machinery_form_validate_privacy_policy'. $tag_close .'
 
-			action|db|rex_375_user
-			action|callback|sendActivationMail';
+			action|db|rex_375_user';
+    
+    $mail_tpl_ids = (array) rex_var::toArray("REX_VALUE[3]");
+
+    if($mail_tpl_ids[0]==0)
+    $form_data .= 'action|callback|sendActivationMail';
+    else 
+    $form_data .= "action|tpl2email|".$mail_tpl_ids[0]."|email|||Ein Fehler ist aufgetreten. Bitte senden schreiben Sie uns eine Mail!";
+    #action|callback|sendActivationMail';
 
 	$yform = new rex_yform;
 	$yform->setFormData(trim($form_data));
