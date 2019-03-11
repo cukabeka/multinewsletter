@@ -153,6 +153,50 @@
 </div>
 <div class="row">
 	<div class="col-xs-12">&nbsp;</div>
+	<div class="col-xs-4">Welche Art von Aktivierungsmail soll verschickt werden? Wenn keine angegeben ist, wird die Standard-Mail verwendet, ansonsten das angegebene YFORM-email-Template
+	</div>
+	<div class="col-xs-8">
+	<?php
+		// Gruppen
+		$query = 'SELECT id, name, subject  '.
+				'FROM '. rex::getTablePrefix() .'yform_email_template '.
+				'ORDER BY name';
+		$result = rex_sql::factory();
+		$result->setQuery($query);
+		$num_rows = $result->getRows();
+        
+
+		$group_ids = [];
+		for($i = 0; $i < $num_rows; $i++) {
+			$group_ids[$result->getValue("id")] = $result->getValue("name");
+			$result->next();
+		}
+		$select_feature = new rex_select(); 
+        $select_feature->addOption("--- entsprechend Multinewsletter-Voreinstellung ---", 0);
+		$select_feature->setName('REX_INPUT_VALUE[3][]'); 
+		$select_feature->setMultiple(false); 
+		$select_feature->setSize(10);
+		$select_feature->setAttribute('class', 'form-control');
+
+		// Daten
+		foreach($group_ids as $group_ids => $name)  {
+		  $select_feature->addOption($name." ".$subject, $name); 
+		}
+
+		// Vorselektierung
+		$features_selected = rex_var::toArray("REX_VALUE[3]");
+		if(is_array($features_selected)) {
+			foreach($features_selected as $name) {
+				$select_feature->setSelected($name);
+			}
+		}
+
+		echo $select_feature->show();
+	?>"REX_VALUE[3]"
+	</div>
+</div>
+<div class="row">
+	<div class="col-xs-12">&nbsp;</div>
 </div>
 <div class="row">
 	<div class="col-xs-4">
